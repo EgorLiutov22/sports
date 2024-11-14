@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.template import loader
 
 import datetime
+import time
 
 
 def index(request):
@@ -10,7 +11,8 @@ def index(request):
     context = {'title': 'Главная страница',
                'pages': [('football', 'Футбол'),
                          ('basketball', 'Баскетбол'),
-                         ('hockey', 'Хоккей')
+                         ('hockey', 'Хоккей'),
+                         ('daytime/', 'Время')
                          ]}
     return HttpResponse(template.render(context, request))
 
@@ -24,7 +26,6 @@ def sport(request, sport_name):
 
 def daytime(request):
     template = loader.get_template("sports/daytime.html")
-    text = ''
     if datetime.datetime.now().time().hour <= 6:
         text = 'Доброй ночи'
     elif datetime.datetime.now().time().hour <= 12:
@@ -34,7 +35,7 @@ def daytime(request):
     else:
         text = 'Добрый вечер'
     context = {'title': 'Время',
-               'time': str(datetime.datetime.now()),
+               'time': time.strftime("%H:%M:%S", time.localtime()),
                'daytime': text
                }
     return HttpResponse(template.render(context, request))
