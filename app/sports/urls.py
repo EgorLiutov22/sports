@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import views
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('<str:sport_name>', views.sport),
+    path('daytime/', views.daytime),
 ]
