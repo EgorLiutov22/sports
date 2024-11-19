@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{title}}</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title%}
+{{title}}
+{%endblock%}
+{% block content %}
 <h3>{{time}}</h3>
 <p>{{daytime}}</p>
 
-</body>
-</html>
+{%endblock%}
