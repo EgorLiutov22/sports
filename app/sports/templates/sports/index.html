@@ -3,7 +3,10 @@
 {{title}}
 {%endblock%}
 {% block content %}
+<div class="list-group">
 {%for page in pages %}
-<a href=/{{page.0}}>{{page.1}}</a><br>
+    <a href=/{{page.0}} class="list-group-item list-group-item-action">{{page.1}}</a>
+<!--<a href=/{{page.0}}>{{page.1}}</a><br>-->
 {% endfor%}
+</div>
 {%endblock%}
