@@ -5,6 +5,9 @@ from django.template import loader
 import datetime
 import time
 
+from .form import UserForm
+
+
 
 def index(request):
     template = loader.get_template("sports/index.html")
@@ -14,7 +17,8 @@ def index(request):
 
 def sport(request, sport_name):
     template = loader.get_template("sports/sport.html")
-    context = get_context(sport_name, {'text': f'Новости {sport_name}'})
+    d = {'text': f'Новости {sport_name}'}
+    context = get_context(sport_name, d)
     return HttpResponse(template.render(context, request))
 
 
@@ -34,15 +38,27 @@ def daytime(request):
     context = get_context('Время', t)
     return HttpResponse(template.render(context, request))
 
+def user_age(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        age = request.POST.get("age")
+        return HttpResponse(f"<h2>Привет, {name}, твой возраст: {age}</h2>")
+    else:
+        userform = UserForm()
+        content = get_context('Пользователь', {"form": userform})
+        return render(request, "user.html", content)
+
 
 def get_context(title, d=None):
     context = {'title': title,
-               'pages': [('football', 'Футбол'),
-                         ('basketball', 'Баскетбол'),
-                         ('hockey', 'Хоккей'),
-                         ('daytime/', 'Время')
+               'pages': [('football/', 'Футбол'),
+                         ('basketball/', 'Баскетбол'),
+                         ('hockey/', 'Хоккей'),
+                         ('daytime/', 'Время'),
+                         ('user_age/', 'Пользователь')
                          ]}
-    if type(d) == "<class 'dict'>":
+    if d:
         for k in d:
             context[k] = d[k]
     return context
+
