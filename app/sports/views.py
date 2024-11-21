@@ -42,11 +42,12 @@ def user_age(request):
     if request.method == "POST":
         name = request.POST.get("name")
         age = request.POST.get("age")
-        return HttpResponse(f"<h2>Привет, {name}, твой возраст: {age}</h2>")
+        u = {'name': name, 'age': age}
+        content = get_context('Пользователь', u)
     else:
         userform = UserForm()
         content = get_context('Пользователь', {"form": userform})
-        return render(request, "user.html", content)
+    return render(request, "user.html", content)
 
 
 def get_context(title, d=None):
