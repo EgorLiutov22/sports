@@ -25,4 +25,5 @@ urlpatterns = [
     path('<str:sport_name>', views.sport),
     path('daytime/', views.daytime),
     path('user_age/', views.user_age),
+    path('prime/', views.prime),
 ]

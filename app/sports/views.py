@@ -4,8 +4,9 @@ from django.template import loader
 
 import datetime
 import time
+import math
 
-from .form import UserForm
+from .form import UserForm, PrimeNumbersForm
 
 
 
@@ -49,6 +50,17 @@ def user_age(request):
         content = get_context('Пользователь', {"form": userform})
     return render(request, "user.html", content)
 
+def prime(request):
+    if request.method == "POST":
+        start = int(request.POST.get("start"))
+        stop = int(request.POST.get("stop"))
+        u = {'numbers': [n for n in range(start, stop+1) if is_prime(n)]}
+        content = get_context('Простые числа', u)
+    else:
+        userform = PrimeNumbersForm()
+        content = get_context('Простые числа', {"form": userform})
+    return render(request, "prime.html", content)
+
 
 def get_context(title, d=None):
     context = {'title': title,
@@ -56,10 +68,22 @@ def get_context(title, d=None):
                          ('basketball/', 'Баскетбол'),
                          ('hockey/', 'Хоккей'),
                          ('daytime/', 'Время'),
-                         ('user_age/', 'Пользователь')
+                         ('user_age/', 'Пользователь'),
+                         ('prime/', 'Простые числа')
                          ]}
     if d:
         for k in d:
             context[k] = d[k]
     return context
 
+def is_prime(number):
+    # список простых чисел начинается с 2, всё остальное можно сразу отмести
+    if number <= 1:
+        return False
+    number_sqrt = int(math.sqrt(number))
+    divisors = range(2, (number_sqrt + 1))
+    # Если число не простое, то в отрезке от 1 до квадратного корня числа, точно будут его делители.
+    for element in divisors:
+        if number % element == 0:
+            return False
+    return True
