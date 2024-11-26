@@ -7,6 +7,7 @@ import time
 import math
 
 from .form import UserForm, PrimeNumbersForm
+from .db_models import UserAgeData
 
 
 
@@ -45,6 +46,8 @@ def user_age(request):
         age = request.POST.get("age")
         u = {'name': name, 'age': age}
         content = get_context('Пользователь', u)
+        u = UserAgeData(name=name, age=age)
+        u.save()
     else:
         userform = UserForm()
         content = get_context('Пользователь', {"form": userform})

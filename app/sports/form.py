@@ -8,3 +8,8 @@ class UserForm(forms.Form):
 class PrimeNumbersForm(forms.Form):
     start = forms.IntegerField()
     stop = forms.IntegerField()
+
+class SubscriptionForm(forms.Form):
+    name = forms.CharField()
+    lastname = forms.CharField()
+    age = forms.IntegerField()
