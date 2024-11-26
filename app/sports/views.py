@@ -10,7 +10,6 @@ from .form import UserForm, PrimeNumbersForm
 from .db_models import UserAgeData
 
 
-
 def index(request):
     template = loader.get_template("sports/index.html")
     context = get_context('Главная страница')
@@ -40,6 +39,7 @@ def daytime(request):
     context = get_context('Время', t)
     return HttpResponse(template.render(context, request))
 
+
 def user_age(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -53,11 +53,12 @@ def user_age(request):
         content = get_context('Пользователь', {"form": userform})
     return render(request, "user.html", content)
 
+
 def prime(request):
     if request.method == "POST":
         start = int(request.POST.get("start"))
         stop = int(request.POST.get("stop"))
-        u = {'numbers': [n for n in range(start, stop+1) if is_prime(n)]}
+        u = {'numbers': [n for n in range(start, stop + 1) if is_prime(n)]}
         content = get_context('Простые числа', u)
     else:
         userform = PrimeNumbersForm()
@@ -79,6 +80,7 @@ def get_context(title, d=None):
             context[k] = d[k]
     return context
 
+
 def is_prime(number):
     # список простых чисел начинается с 2, всё остальное можно сразу отмести
     if number <= 1:
@@ -90,3 +92,9 @@ def is_prime(number):
         if number % element == 0:
             return False
     return True
+
+
+def get_users(request):
+    u = UserAgeData.objects.all()
+    s = ' '.join(map(str, u))
+    return HttpResponse(s)

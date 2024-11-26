@@ -26,4 +26,5 @@ urlpatterns = [
     path('daytime/', views.daytime),
     path('user_age/', views.user_age),
     path('prime/', views.prime),
+    path('get_users/', views.get_users),
 ]
